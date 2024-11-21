@@ -1,0 +1,95 @@
+MATERIALES
+
+- Python versión 3
+
+EXTENSIONES
+
+- Boostrap 5
+- GitHUb Compilot o KIte AutoComplete
+- Palenight Theme
+
+EN TERMINAL
+
+$ VERIFICAR VERSION DE PYTHON $
+- python --version
+
+$ INSTALAR DJANGO $
+- py -m pip install Django==5.1.1
+- django-admin startproject [nombreDePY]
+COMPROBAR LA INSTALACION
+- python
+- import django
+- django.VERSION
+- exit()
+
+$ INSTALAR APLICACIONES $
+- entramos a la carpeta del proyecto
+- cd [CarpetaDeAplicacion]
+- django-admin startapp [nombreDeApp]
+
+$ INICIAR SERVIDOR $
+- entramos a la carpeta del sistema
+- python manage.py runserver
+
+$ CREAR APLICACIONES $
+dentro de la carpeta del proyecto:
+- python manage.py startapp crud
+
+$CONFIGURACIÓN DE settings.py$
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'crud' ### ingresamos aqui nuestra aplicación ###
+]
+
+$ ORDEN DE TRABAJO $
+- Generar vista
+- Creamos archivo "urls.py" y trabajamos en el
+- Creamos y trabajamos en "Templates"
+
+OJO, Para ver lista de paquetes ---> pip list 
+
+$ IMPORTANTE PARA INSTALAR $
+- pip install PyMySQL (Para manejar SQL)
+- pip install Pillow (Para cargar imagenes)
+
+$ IMPORTAR DATOS A BD $
+- py manage.py makemigrations (Generamos la estructura de los datos en el sistema)
+- py manage.py migrate (Enviamos la información a la base de datos)
+
+$ CREAR SUPER USUARIO $
+- python manage.py createsuperuser
+
+$ CONFIGURAR SERVIDOR DE IMAGENES EN settings.py $
+- import os
+## Agregamos esta linea de código para habilitar el servidor ##
+- MEDIA_ROOT = os.path.join(BASE_DIR, '')
+- MEDIA_URL = '/imagenes/'
+
+## Agreagamos esta configuracion en views.py de la aplicación ##
+from django.urls import path
+from . import views
+
+## Direccionamiento para servidor de imagenes
+from django.conf import settings
+from django.contrib.staticfiles.urls import static
+
+urlpatterns = [
+    path('', views.inicio, name='inicio'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+$ ESTRUCTURA PARA GENERAR FORMULARIO DE CRUDS $
+# creamos archivo forms.py en raiz de la aplicacion #
+
+- from django import forms
+- from .models import crud
+
+- class crudForm(form.ModelForm):
+    - class meta:
+        - model = crud
+        - fields = '__all__'
